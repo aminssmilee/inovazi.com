@@ -5,7 +5,7 @@ import { useRef } from "react";
 import { useMediaQuery } from "react-responsive";
 import Image from "next/image";
 
-const FlavorSlider = () => {
+const ServiceSlider = () => {
   const sliderRef = useRef<null | HTMLDivElement>(null);
 
   const isTablet = useMediaQuery({
@@ -91,4 +91,4 @@ const FlavorSlider = () => {
   );
 };
 
-export default FlavorSlider;
+export default ServiceSlider;

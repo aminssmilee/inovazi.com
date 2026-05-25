@@ -2,7 +2,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { SplitText } from "gsap/all";
 
-const FlavorTitle = () => {
+const ServiceTitle = () => {
   useGSAP(() => {
     const firstTextSplit = SplitText.create(".first-text-split h1", {
       type: "chars",
@@ -65,4 +65,4 @@ const FlavorTitle = () => {
   );
 };
 
-export default FlavorTitle;
+export default ServiceTitle;

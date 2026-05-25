@@ -71,9 +71,9 @@ const NutritionSection = () => {
 
       <Image src="/images/big-img.webp" width={3000} height={3000} alt="big-img" className="big-img" />
 
-      <div className="relative z-10 flex md:flex-row flex-col justify-between md:px-10 px-5 mt-14 md:mt-0">
+      <div className="flex md:flex-row flex-col justify-between md:px-10 px-5 mt-14 md:mt-0">
         <div className="relative inline-block md:translate-y-20">
-          <div className="general-title relative flex flex-col justify-center items-center md:gap-20 gap-6">
+          <div className="general-title relative flex flex-col justify-center items-center gap-24">
             <div className="overflow-hidden place-self-start">
               <h1 className="nutrition-title">It still does</h1>
             </div>
@@ -90,7 +90,7 @@ const NutritionSection = () => {
           </div>
         </div>
 
-        <div className="flex md:justify-center items-center md:translate-y-5 translate-y-0 md:mt-0 mt-8">
+        <div className="flex md:justify-center items-center translate-y-5">
           <div className="md:max-w-md max-w-md">
             <p className="text-lg md:text-right text-balance font-paragraph">
               Website berkualitas tinggi meningkatkan kredibilitas brand Anda, mendatangkan lebih banyak klien potensial, dan mengoptimalkan angka konversi penjualan secara otomatis.
@@ -101,19 +101,14 @@ const NutritionSection = () => {
         <div className="nutrition-box">
           <div className="list-wrapper">
             {lists.map((nutrient, index) => (
-              <div key={index} className="relative flex-1 col-center w-full">
-                <div className="text-center">
+              <div key={index} className="relative flex-1 col-center">
+                <div>
                   <p className="md:text-lg font-paragraph">{nutrient.label}</p>
-                  <p className="font-paragraph text-sm mt-1">up to</p>
+                  <p className="font-paragraph text-sm mt-2">up to</p>
                   <p className="text-2xl md:text-4xl tracking-tighter font-bold">{nutrient.amount}</p>
                 </div>
 
-                {index !== lists.length - 1 && (
-                  <div className="spacer-border hidden md:block" />
-                )}
-                {index !== lists.length - 1 && (
-                  <div className="w-2/3 h-px bg-[#587B82]/20 my-4 md:hidden" />
-                )}
+                {index !== lists.length - 1 && <div className="spacer-border" />}
               </div>
             ))}
           </div>

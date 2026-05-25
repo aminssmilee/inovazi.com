@@ -6,7 +6,7 @@ import { ScrollTrigger, ScrollSmoother } from "gsap/all";
 import { useGSAP } from "@gsap/react";
 import MessageSection from "@/sections/MessageSection";
 import NutritionSection from "@/sections/NutritionSection";
-import FlavorSection from "@/sections/FlavorSection";
+import ServiceSection from "@/sections/ServiceSection";
 import BenefitSection from "@/sections/BenefitSection";
 import TestimonialSection from "@/sections/TestimonialSection";
 import FooterSection from "@/sections/FooterSection";
@@ -43,7 +43,7 @@ export default function Home() {
               triggerAnimation={isPreloaderDone} 
             />
             <MessageSection />
-            <FlavorSection />
+            <ServiceSection />
             <NutritionSection />
             <div>
               <BenefitSection />
