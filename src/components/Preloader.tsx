@@ -46,7 +46,7 @@ const Preloader: React.FC<PreloaderProps> = ({ isLoaded, onFinish }) => {
         {
           width: 0,
           opacity: 0,
-          duration: 0.8,
+          duration: 1,
           ease: "power2.out",
         },
         "-=0.5"
@@ -82,22 +82,27 @@ const Preloader: React.FC<PreloaderProps> = ({ isLoaded, onFinish }) => {
     <div
       ref={containerRef}
       className="fixed inset-0 z-[100] flex flex-col items-center justify-center overflow-hidden"
-      style={{ backgroundImage: "linear-gradient(135deg, #F4F7F7 0%, #587B82 50%, #20292C 100%)" }}
     >
+      <Image
+        src="/images/baground/bg.webp"
+        alt="Preloader Background"
+        fill
+        priority
+        className="absolute inset-0 w-full h-full object-cover -z-10"
+      />
       <div ref={logoRef} className="relative mb-12 flex flex-col items-center">
-        <div className="flex items-center gap-1">
+        <div className="flex items-center justify-center bg-black rounded-full px-12 shadow-xl animate-float">
           <Image
             src="/images/logoinovazi.png"
             alt="Inovazi Logo"
             width={150}
             height={150}
-            className="w-20 md:w-32 h-auto object-contain"
+            className="w-32 md:w-40 h-auto object-contain -mr-6 md:-mr-10"
             style={{ filter: "brightness(0) invert(97%) sepia(5%) saturate(160%) hue-rotate(130deg) brightness(101%) contrast(97%)" }}
             priority
           />
           <h1 className="text-milk text-5xl md:text-7xl">Inovazi</h1>
         </div>
-        <p className="text-milk/75 text-base md:text-xl font-paragraph mt-4 font-light">Startup-nya Gen Z</p>
       </div>
       <div className="w-64 h-1 bg-dark-brown/10 rounded-full overflow-hidden relative">
         <div

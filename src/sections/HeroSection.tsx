@@ -139,23 +139,38 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onLoaded, triggerAnimation })
             />
           </>
         ) : (
-          <video
-            ref={videoRef}
-            src="/videos/herobg.mp4"
-            autoPlay
-            muted
-            playsInline
-            preload="auto"
-            className="absolute inset-0 w-full h-full object-cover"
-            onCanPlayThrough={() => {
-              console.log("HeroSection: Video can play through");
-              onLoaded();
-            }}
-            onLoadedData={() => {
-              console.log("HeroSection: Video data loaded");
-              onLoaded();
-            }}
-          />
+          <>
+            {/* 
+            <video
+              ref={videoRef}
+              src="/videos/herobg.mp4"
+              autoPlay
+              muted
+              playsInline
+              preload="auto"
+              className="absolute inset-0 w-full h-full object-cover"
+              onCanPlayThrough={() => {
+                console.log("HeroSection: Video can play through");
+                onLoaded();
+              }}
+              onLoadedData={() => {
+                console.log("HeroSection: Video data loaded");
+                onLoaded();
+              }}
+            />
+            */}
+            <Image
+              src="/images/baground/bg.webp"
+              alt="Hero Background"
+              fill
+              priority
+              className="absolute inset-0 w-full h-full object-cover"
+              onLoad={() => {
+                console.log("HeroSection: Background image loaded");
+                onLoaded();
+              }}
+            />
+          </>
         )}
         <div className="hero-content opacity-0">
           <div className="overflow-hidden">
