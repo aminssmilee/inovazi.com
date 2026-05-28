@@ -95,20 +95,22 @@ const BenefitSection = () => {
         stagger: 0.02, duration: 0.6, ease: "power2.out",
       }, "-=0.15");
 
-    // --- Benefit cards stagger entrance ---
-    gsap.fromTo(
-      ".benefit-card",                    // ✅ scoped to containerRef via scope config
-      { opacity: 0, y: 40 },
-      {
-        opacity: 1, y: 0,
-        duration: 0.7, ease: "power3.out",
-        stagger: 0.13,
-        scrollTrigger: {
-          trigger: containerRef.current,  // ✅ direct ref
-          start: "top 50%",
-        },
-      }
-    );
+    // --- Benefit cards entrance (per card for mobile vertical stack) ---
+    const cards = gsap.utils.toArray<HTMLElement>(".benefit-card");
+    cards.forEach((card, i) => {
+      gsap.fromTo(
+        card,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1, y: 0,
+          duration: 0.7, ease: "power3.out",
+          scrollTrigger: {
+            trigger: card,
+            start: "top 85%",
+          },
+        }
+      );
+    });
 
     return () => {
       labelSplit.revert();

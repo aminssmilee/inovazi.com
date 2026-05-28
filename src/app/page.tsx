@@ -26,6 +26,7 @@ export default function Home() {
     ScrollSmoother.create({
       smooth: 3,
       effects: true,
+      smoothTouch: 0.1, // Do not completely hijack mobile scroll
     });
   });
 

@@ -92,20 +92,22 @@ const NutritionSection = () => {
         stagger: 0.02, duration: 0.6, ease: "power2.out",
       }, "-=0.2");
 
-    // --- Stats bar: slide up from below ---
-    gsap.fromTo(
-      ".nutrition-stat",
-      { opacity: 0, y: 40 },
-      {
-        opacity: 1, y: 0,
-        duration: 0.6, ease: "power3.out",
-        stagger: 0.1,
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top 45%",
-        },
-      }
-    );
+    // --- Stats bar: slide up from below (per stat for mobile) ---
+    const stats = gsap.utils.toArray<HTMLElement>(".nutrition-stat");
+    stats.forEach((stat, i) => {
+      gsap.fromTo(
+        stat,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1, y: 0,
+          duration: 0.6, ease: "power3.out",
+          scrollTrigger: {
+            trigger: stat,
+            start: "top 90%",
+          },
+        }
+      );
+    });
 
     return () => {
       labelSplit.revert();

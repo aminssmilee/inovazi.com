@@ -50,23 +50,25 @@ const ServiceSlider = ({ sectionEl }: ServiceSliderProps) => {
   useGSAP(() => {
     if (!sliderRef.current) return;
 
-    // --- Card entrance stagger (scoped inside sliderRef) ---
-    gsap.fromTo(
-      ".service-card",                          // ✅ scoped to sliderRef via scope config
-      { opacity: 0, y: 60, scale: 0.94 },
-      {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        duration: 0.8,
-        ease: "power3.out",
-        stagger: 0.14,
-        scrollTrigger: {
-          trigger: sliderRef.current,           // ✅ direct ref, not string
-          start: "top 78%",
-        },
-      }
-    );
+    // --- Card entrance — animate per card so they reveal correctly on mobile scroll ---
+    const cards = gsap.utils.toArray<HTMLElement>(".service-card");
+    cards.forEach((card, i) => {
+      gsap.fromTo(
+        card,
+        { opacity: 0, y: 60, scale: 0.94 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: card,
+            start: "top 85%", // trigger when the top of the card is 85% down the viewport
+          },
+        }
+      );
+    });
   }, { scope: sliderRef, dependencies: [isTablet] });
 
   // ✅ Skill: pin / horizontal scroll — targets the PARENT section element directly.
