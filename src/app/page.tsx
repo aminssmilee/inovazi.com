@@ -26,12 +26,12 @@ export default function Home() {
     ScrollSmoother.create({
       smooth: 3,
       effects: true,
-      smoothTouch: 0.1, // Do not completely hijack mobile scroll
+      smoothTouch: false, // Fully use native scrolling on mobile touch
     });
   });
 
   return (
-    <main className="relative min-h-screen bg-milk overflow-hidden font-sans">
+    <main className="relative min-h-screen bg-milk font-sans">
       {/* Global Background Image */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <Image
