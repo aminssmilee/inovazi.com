@@ -56,8 +56,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onLoaded, triggerAnimation })
 
       // Set initial values
       gsap.set(titleSplit.chars, {
-        yPercent: 150,
-        color: "white",
+        yPercent: 120,
+        color: "#94a3b8", // Light slate grey so it's visible on light bg
         display: "inline-block",
       });
 
@@ -83,10 +83,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onLoaded, triggerAnimation })
           titleSplit.chars,
           {
             yPercent: 0,
-            color: "white",
-            stagger: 0.04,
+            stagger: 0.05,
             duration: 0.8,
-            ease: "power3.out",
+            ease: "power4.out",
           },
           "-=0.5"
         )

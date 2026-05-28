@@ -158,6 +158,21 @@ body::-webkit-scrollbar {
   .general-title {
     @apply 2xl:text-[8.5rem] md:text-8xl text-3xl sm:text-4xl font-light uppercase leading-[1.1] md:leading-[9vw] tracking-[-.35vw];
   }
+
+  .running-text-gradient {
+    background: linear-gradient(to right, #ffce32, #1d63ff, #ffce32, #1d63ff);
+    background-size: 300% auto;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: runningGradient 3s linear infinite;
+  }
+
+  @keyframes runningGradient {
+    to {
+      background-position: 300% center;
+    }
+  }
 }
 
 @layer components {

@@ -8,7 +8,9 @@ import MessageSection from "@/sections/MessageSection";
 import NutritionSection from "@/sections/NutritionSection";
 import ServiceSection from "@/sections/ServiceSection";
 import BenefitSection from "@/sections/BenefitSection";
-import TestimonialSection from "@/sections/TestimonialSection";
+// import TestimonialSection from "@/sections/TestimonialSection";
+import ClientSection from "@/sections/ClientSection";
+import PricingSection from "@/sections/PricingSection";
 import FAQSection from "@/sections/FAQSection";
 import FooterSection from "@/sections/FooterSection";
 import { useEffect } from "react";
@@ -56,7 +58,9 @@ export default function Home() {
             <NutritionSection />
             <div>
               <BenefitSection />
-              <TestimonialSection />
+              {/* <TestimonialSection /> */}
+              <ClientSection />
+              <PricingSection />
               <FAQSection />
             </div>
             <FooterSection />
