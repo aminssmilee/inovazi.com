@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: "Inovazi",
   description: "Start up nya gen z",
   icons: {
-    icon: "/images/inovazi.svg",
+    icon: "/images/logoinovazi.png",
   },
 };
 
@@ -16,6 +16,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Outfit:wght@100..900&display=swap" rel="stylesheet" />
+      </head>
       <body className={`antialiased`}>{children}</body>
     </html>
   );

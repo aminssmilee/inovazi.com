@@ -3,6 +3,8 @@ declare interface IFlavorList {
     color: string;
     rotation: string;
     image?: string;
+    features?: string[];
+    subtitle?: string;
 }
 
 declare interface INutrientList {

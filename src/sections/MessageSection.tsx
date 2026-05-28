@@ -1,98 +1,92 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { SplitText } from "gsap/all";
+import { SplitText, ScrollTrigger } from "gsap/all";
+
+gsap.registerPlugin(SplitText, ScrollTrigger);
 
 const MessageSection = () => {
   useGSAP(() => {
-    const firstMsgSplit = SplitText.create(".first-message", {
+    const titleSplit = SplitText.create(".message-title", {
       type: "words",
     });
-    const secMsgSplit = SplitText.create(".second-message", {
-      type: "words",
-    });
+
     const paragraphSplit = SplitText.create(".message-content p", {
       type: "words, lines",
       linesClass: "paragraph-line",
     });
 
-    gsap.to(firstMsgSplit.words, {
-      color: "#F4F7F7",
-      ease: "power1.in",
-      stagger: 1,
+    // Set initial values
+    gsap.set(titleSplit.words, {
+      yPercent: 100,
+      color: "white",
+      display: "inline-block",
+    });
+
+    const tl = gsap.timeline({
       scrollTrigger: {
         trigger: ".message-content",
-        start: "top center",
-        end: "30% center",
-        scrub: true,
-      },
-    });
-    gsap.to(secMsgSplit.words, {
-      color: "#F4F7F7",
-      ease: "power1.in",
-      stagger: 1,
-      scrollTrigger: {
-        trigger: ".second-message",
-        start: "top center",
-        end: "bottom center",
-        scrub: true,
+        start: "top 75%",
       },
     });
 
-    const revealTl = gsap.timeline({
-      delay: 1,
-      scrollTrigger: {
-        trigger: ".msg-text-scroll",
-        start: "top 60%",
+    // 1. Slide up in white
+    tl.to(titleSplit.words, {
+      yPercent: 0,
+      stagger: 0.03,
+      duration: 0.6,
+      ease: "power2.out",
+    })
+    // 2. Color swipe: animate normal words to black, and highlighted words to blue/yellow
+    .to(titleSplit.words, {
+      color: (index, target) => {
+        if (target.closest(".highlight-blue")) {
+          return "#1d63ff"; // Blue
+        }
+        if (target.closest(".highlight-yellow")) {
+          return "#ffce32"; // Yellow
+        }
+        return "#000000"; // Black
       },
-    });
-    revealTl.to(".msg-text-scroll", {
-      duration: 1,
-      clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-      ease: "circ.inOut",
-    });
+      stagger: 0.03,
+      duration: 0.5,
+      ease: "power1.out",
+    }, "-=0.3");
 
-    const paragraphTl = gsap.timeline({
+    // Paragraph entrance
+    gsap.from(paragraphSplit.words, {
+      yPercent: 200,
+      rotate: 1,
+      ease: "power2.out",
+      duration: 0.8,
+      stagger: 0.005,
       scrollTrigger: {
         trigger: ".message-content p",
-        start: "top center",
+        start: "top 85%",
       },
     });
-    paragraphTl.from(paragraphSplit.words, {
-      yPercent: 300,
-      rotate: 3,
-      ease: "power1.inOut",
-      duration: 1,
-      stagger: 0.01,
-    });
+
+    return () => {
+      titleSplit.revert();
+      paragraphSplit.revert();
+    };
   });
 
   return (
-    <section className="message-content">
-      <div className="container mx-auto flex-center py-28 relative">
-        <div className="w-full h-full">
-          <div className="msg-wrapper">
-            <h1 className="first-message">We help you elevate your business and</h1>
+    <section id="about" className="message-content bg-transparent min-h-[85vh] flex items-center justify-center py-24 relative z-20">
+      <div className="container mx-auto px-5 md:px-10 max-w-5xl">
+        <div className="overflow-hidden text-center py-4">
+          <h1 className="message-title font-sans text-3xl md:text-6xl font-light tracking-tight leading-tight text-black max-w-4xl mx-auto">
+            Kami bikin website yang bukan cuma <span className="highlight-blue font-medium">Estetik</span>, tapi juga bikin bisnis kamu keliatan <span className="highlight-yellow font-medium">Next Level</span>.
+          </h1>
+        </div>
 
-            <div
-              style={{
-                clipPath: "polygon(0 0, 0 0, 0 100%, 0% 100%)",
-              }}
-              className="msg-text-scroll"
-            >
-              <div className="bg-light-brown md:pb-5 pb-3 px-5">
-                <h2 className="text-red-brown">Scale Up</h2>
-              </div>
-            </div>
-
-            <h1 className="second-message">your digital presence with premium interactive websites</h1>
-          </div>
-
-          <div className="flex-center md:mt-20 mt-10">
-            <div className="max-w-xl px-10 flex-center overflow-hidden">
-              <p>
-                Hadirkan pengalaman digital terbaik bagi pelanggan Anda. Website buatan Inovazi dirancang dengan animasi GSAP yang memukau, performa tinggi, dan desain responsif untuk konversi maksimal.
-              </p>
-            </div>
+        <div className="flex-center md:mt-16 mt-8">
+          <div className="max-w-xl px-10 flex-center overflow-hidden">
+            <p className="font-paragraph text-slate-650 text-base md:text-lg leading-relaxed text-center">
+              Dari landing page modern sampai website interaktif,
+              Inovazi hadir untuk membantu brand tampil lebih standout
+              di era digital tanpa desain yang terasa kaku dan membosankan.
+            </p>
           </div>
         </div>
       </div>

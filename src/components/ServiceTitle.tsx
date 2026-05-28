@@ -1,65 +1,97 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { SplitText } from "gsap/all";
+import { SplitText, ScrollTrigger } from "gsap/all";
+
+gsap.registerPlugin(SplitText, ScrollTrigger);
 
 const ServiceTitle = () => {
   useGSAP(() => {
-    const firstTextSplit = SplitText.create(".first-text-split h1", {
-      type: "chars",
-    });
-    const secondTextSplit = SplitText.create(".second-text-split h1", {
-      type: "chars",
+    const labelSplit = SplitText.create(".service-label", { type: "words" });
+    const titleSplit = SplitText.create(".service-title-text", { type: "chars" });
+    const descSplit = SplitText.create(".service-desc", { type: "words" });
+
+    // Set initial values
+    gsap.set(labelSplit.words, { yPercent: 100, opacity: 0 });
+    gsap.set(descSplit.words, { yPercent: 50, opacity: 0 });
+    gsap.set(titleSplit.chars, {
+      yPercent: 150,
+      color: "white",
+      display: "inline-block",
     });
 
-    gsap.from(firstTextSplit.chars, {
-      yPercent: 200,
-      stagger: 0.02,
-      ease: "power1.inOut",
+    const tl = gsap.timeline({
       scrollTrigger: {
         trigger: ".services-section",
         start: "top 30%",
       },
     });
 
-    gsap.to(".flavor-text-scroll", {
-      duration: 1,
-      clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-      scrollTrigger: {
-        trigger: ".services-section",
-        start: "top 10%",
-      },
-    });
+    // 1. Animate label
+    tl.to(labelSplit.words, {
+      yPercent: 0,
+      opacity: 1,
+      duration: 0.5,
+      ease: "power2.out",
+    })
+      // 2. Slide up title characters in white
+      .to(titleSplit.chars, {
+        yPercent: 0,
+        color: "white",
+        stagger: 0.04,
+        duration: 0.6,
+        ease: "power3.out",
+      }, "-=0.3")
+      // 3. Color swipe: white -> yellow -> blue -> black
+      .to(titleSplit.chars, {
+        color: "#ffce32",
+        stagger: 0.04,
+        duration: 0.4,
+        ease: "power2.out",
+      }, "-=0.2")
+      .to(titleSplit.chars, {
+        color: "#1d63ff",
+        stagger: 0.04,
+        duration: 0.4,
+        ease: "power2.out",
+      }, "-=0.3")
+      .to(titleSplit.chars, {
+        color: "#000000",
+        stagger: 0.04,
+        duration: 0.4,
+        ease: "power2.out",
+      }, "-=0.3")
+      // 4. Animate description
+      .to(descSplit.words, {
+        yPercent: 0,
+        opacity: 1,
+        stagger: 0.02,
+        duration: 0.6,
+        ease: "power2.out",
+      }, "-=0.2");
 
-    gsap.from(secondTextSplit.chars, {
-      yPercent: 200,
-      stagger: 0.02,
-      ease: "power1.inOut",
-      scrollTrigger: {
-        trigger: ".services-section",
-        start: "top 1%",
-      },
-    });
+    return () => {
+      labelSplit.revert();
+      titleSplit.revert();
+      descSplit.revert();
+    };
   });
 
   return (
-    <div className="general-title col-center h-full 2xl:gap-32 xl:gap-24 gap-16">
-      <div className="overflow-hidden 2xl:py-0 py-3 first-text-split">
-        <h1>We build</h1>
+    <div className="flex flex-col justify-center items-center md:items-start w-full h-full gap-2 text-center md:text-left pl-6 md:pl-[10vw] pr-6 md:pr-0 max-w-lg">
+      {/* <div className="overflow-hidden py-1">
+        <p className="service-label text-theme-blue font-sans text-sm md:text-base font-bold uppercase tracking-wider">
+          What We Do
+        </p>
+      </div> */}
+      <div className="overflow-hidden py-1">
+        <h1 className="service-title-text text-3xl md:text-6xl font-sans font-light text-black tracking-tight leading-none">
+          Our <br />Services
+        </h1>
       </div>
-
-      <div
-        style={{
-          clipPath: "polygon(0 0, 0 0, 0 100%, 0% 100%)",
-        }}
-        className="flavor-text-scroll"
-      >
-        <div className="bg-mid-brown pb-5 2xl:pt-0 pt-3 2xl:px-5 px-3">
-          <h2 className="text-milk">stunning</h2>
-        </div>
-      </div>
-
-      <div className="overflow-hidden 2xl:py-0 py-3 second-text-split">
-        <h1>custom websites</h1>
+      <div className="overflow-hidden py-1 mt-2">
+        <p className="service-desc font-paragraph text-slate-500 text-sm md:text-base leading-relaxed">
+          Kami siap bantu meracik website interaktif dengan performa optimal untuk menaikkan level bisnis kamu.
+        </p>
       </div>
     </div>
   );

@@ -9,16 +9,14 @@ import NutritionSection from "@/sections/NutritionSection";
 import ServiceSection from "@/sections/ServiceSection";
 import BenefitSection from "@/sections/BenefitSection";
 import TestimonialSection from "@/sections/TestimonialSection";
+import FAQSection from "@/sections/FAQSection";
 import FooterSection from "@/sections/FooterSection";
-import { useState, useEffect } from "react";
-import Preloader from "@/components/Preloader";
+import { useEffect } from "react";
+import Image from "next/image";
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 export default function Home() {
-  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
-  const [isPreloaderDone, setIsPreloaderDone] = useState(false);
-
   useEffect(() => {
     window.history.scrollRestoration = "manual";
     window.scrollTo(0, 0);
@@ -32,15 +30,25 @@ export default function Home() {
   });
 
   return (
-    <main>
-      <Preloader isLoaded={isVideoLoaded} onFinish={() => setIsPreloaderDone(true)} />
-      <div className={!isPreloaderDone ? "h-screen overflow-hidden opacity-0" : "opacity-100 transition-opacity duration-500"}>
+    <main className="relative min-h-screen bg-milk overflow-hidden font-sans">
+      {/* Global Background Image */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <Image
+          src="/images/baground/bgnew.webp"
+          alt="Global Background"
+          fill
+          priority
+          className="object-cover w-full h-full"
+        />
+      </div>
+
+      <div className="relative z-10">
         <Navbar />
         <div id="smooth-wrapper">
           <div id="smooth-content">
-            <HeroSection 
-              onLoaded={() => setIsVideoLoaded(true)} 
-              triggerAnimation={isPreloaderDone} 
+            <HeroSection
+              onLoaded={() => { }}
+              triggerAnimation={true}
             />
             <MessageSection />
             <ServiceSection />
@@ -48,6 +56,7 @@ export default function Home() {
             <div>
               <BenefitSection />
               <TestimonialSection />
+              <FAQSection />
             </div>
             <FooterSection />
           </div>

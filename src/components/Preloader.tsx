@@ -83,13 +83,7 @@ const Preloader: React.FC<PreloaderProps> = ({ isLoaded, onFinish }) => {
       ref={containerRef}
       className="fixed inset-0 z-[100] flex flex-col items-center justify-center overflow-hidden"
     >
-      <Image
-        src="/images/baground/bg.webp"
-        alt="Preloader Background"
-        fill
-        priority
-        className="absolute inset-0 w-full h-full object-cover -z-10"
-      />
+      <div className="absolute inset-0 bg-gradient-to-tr from-[#C7D2FE] via-[#F8FAFC] to-[#F5D0FE] -z-10" />
       <div ref={logoRef} className="relative mb-12 flex flex-col items-center">
         <div className="flex items-center justify-center bg-black rounded-full px-12 shadow-xl animate-float">
           <Image

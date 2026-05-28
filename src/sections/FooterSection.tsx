@@ -8,9 +8,7 @@ const FooterSection = () => {
 
   return (
     <footer id="footer" className="footer-section">
-      <Image src="/images/footer-dip.webp" alt="" width={3000} height={3000} className="w-full object-cover -translate-y-1" />
-
-      <div className="2xl:h-[110dvh] relative md:pt-[20vh] pt-[10vh]">
+      <div className="2xl:h-[110dvh] relative md:pt-[10vh] pt-[5vh]">
         <div className="overflow-hidden z-10">
           <h1 className="general-title text-center text-milk py-5">#INOVASITANPABATAS</h1>
         </div>

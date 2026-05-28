@@ -1,9 +1,11 @@
 import Image from "next/image";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { SplitText } from "gsap/all";
+import { ScrollSmoother, SplitText } from "gsap/all";
 import { useMediaQuery } from "react-responsive";
 import { useEffect, useRef } from "react";
+
+gsap.registerPlugin(SplitText);
 
 interface HeroSectionProps {
   onLoaded: () => void;
@@ -12,7 +14,7 @@ interface HeroSectionProps {
 
 const HeroSection: React.FC<HeroSectionProps> = ({ onLoaded, triggerAnimation }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  
+
   const isMobile = useMediaQuery({
     query: "(max-width: 768px)",
   });
@@ -21,29 +23,21 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onLoaded, triggerAnimation })
     query: "(max-width: 1024px)",
   });
 
+  const handleStartClick = () => {
+    const smoother = ScrollSmoother.get();
+    if (smoother) {
+      smoother.scrollTo("#services", true);
+    } else {
+      document.querySelector("#services")?.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   useEffect(() => {
     const timer = setTimeout(() => {
-      console.log("HeroSection: Safety timeout triggered");
       onLoaded();
-    }, 6000);
-
-    if (isTablet) {
-      clearTimeout(timer);
-      const imgTimer = setTimeout(onLoaded, 5000);
-      return () => clearTimeout(imgTimer);
-    }
-
-    const video = videoRef.current;
-    if (video) {
-      if (video.readyState >= 3) {
-        console.log("HeroSection: Video already loaded");
-        onLoaded();
-        clearTimeout(timer);
-      }
-    }
-
+    }, 100);
     return () => clearTimeout(timer);
-  }, [isTablet, onLoaded]);
+  }, [onLoaded]);
 
   useEffect(() => {
     if (triggerAnimation && videoRef.current) {
@@ -60,9 +54,16 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onLoaded, triggerAnimation })
         type: "chars",
       });
 
-    const tl = gsap.timeline({
-      delay: 1,
-    });
+      // Set initial values
+      gsap.set(titleSplit.chars, {
+        yPercent: 150,
+        color: "white",
+        display: "inline-block",
+      });
+
+      const tl = gsap.timeline({
+        delay: 1,
+      });
 
       tl.to(".hero-content", {
         opacity: 1,
@@ -78,104 +79,58 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onLoaded, triggerAnimation })
           },
           "-=0.5"
         )
-        .from(
+        .to(
           titleSplit.chars,
           {
-            yPercent: 200,
-            stagger: 0.02,
-            ease: "power2.out",
+            yPercent: 0,
+            color: "white",
+            stagger: 0.04,
+            duration: 0.8,
+            ease: "power3.out",
           },
           "-=0.5"
+        )
+        .to(
+          titleSplit.chars,
+          {
+            color: "#ffce32",
+            stagger: 0.04,
+            duration: 0.5,
+            ease: "power2.out",
+          }
+        )
+        .to(
+          titleSplit.chars,
+          {
+            color: "#1d63ff",
+            stagger: 0.04,
+            duration: 0.5,
+            ease: "power2.out",
+          },
+          "-=0.3"
+        )
+        .to(
+          titleSplit.chars,
+          {
+            color: "#000000",
+            stagger: 0.04,
+            duration: 0.5,
+            ease: "power2.out",
+          },
+          "-=0.3"
         );
 
-      const heroTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: ".hero-container",
-          start: "1% top",
-          end: "bottom top",
-          scrub: true,
-        },
-      });
-      heroTl.to(".hero-container", {
-        rotate: 7,
-        scale: 0.9,
-        yPercent: 30,
-        ease: "power1.inOut",
-      });
+      return () => {
+        titleSplit.revert();
+      };
     },
     { dependencies: [triggerAnimation] }
   );
 
   return (
-    <section className="bg-main-bg">
-      <div className="hero-container">
-        {isTablet ? (
-          <>
-            {isMobile && (
-              <Image
-                src="/images/hero-bg.webp"
-                alt="hero-bg"
-                width={3000}
-                height={3000}
-                className="absolute bottom-40 size-full object-cover"
-                onLoad={() => {
-                  console.log("HeroSection: Mobile BG loaded");
-                  onLoaded();
-                }}
-              />
-            )}
-            <Image
-              src="/images/hero-img.webp"
-              alt="hero-img"
-              width={500}
-              height={500}
-              className="absolute bottom-0 left-1/2 -translate-x-1/2 object-auto"
-              onLoad={() => {
-                if (!isMobile) {
-                  console.log("HeroSection: Tablet/Desktop Img loaded");
-                  onLoaded();
-                }
-              }}
-            />
-          </>
-        ) : (
-          <>
-            {/* 
-            <video
-              ref={videoRef}
-              src="/videos/herobg.mp4"
-              autoPlay
-              muted
-              playsInline
-              preload="auto"
-              className="absolute inset-0 w-full h-full object-cover"
-              onCanPlayThrough={() => {
-                console.log("HeroSection: Video can play through");
-                onLoaded();
-              }}
-              onLoadedData={() => {
-                console.log("HeroSection: Video data loaded");
-                onLoaded();
-              }}
-            />
-            */}
-            <Image
-              src="/images/baground/bg.webp"
-              alt="Hero Background"
-              fill
-              priority
-              className="absolute inset-0 w-full h-full object-cover"
-              onLoad={() => {
-                console.log("HeroSection: Background image loaded");
-                onLoaded();
-              }}
-            />
-          </>
-        )}
+    <section className="bg-transparent relative z-10">
+      <div className="hero-container !bg-transparent">
         <div className="hero-content opacity-0">
-          <div className="overflow-hidden">
-            <h1 className="hero-title">Shape the Future</h1>
-          </div>
           <div
             style={{
               clipPath: "polygon(50% 0, 50% 0, 50% 100%, 50% 100%)",
@@ -183,13 +138,22 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onLoaded, triggerAnimation })
             className="hero-text-scroll"
           >
             <div className="hero-subtitle">
-              <h1>Startup-nya Gen Z</h1>
+              {/* <h1>Inovazi Creative Studio</h1> */}
             </div>
           </div>
-          <h2>Wadah akselerasi bagi para kreator, builder, dan inovator muda. Ubah ide berani Anda menjadi produk teknologi nyata yang berdampak luas.</h2>
-          <div className="hero-button">
-            <p>Start Innovating</p>
+          <div className="overflow-hidden mb-4">
+            <h1 className="hero-title">Inovazi 2026</h1>
           </div>
+          <h2>
+            Studio digital kreatif yang ngebangun website interaktif anti-cringe. <br />
+            Biar pas ditanya &ldquo;sibuk apa?&rdquo;, ada jawaban keren selain rebahan.
+          </h2>
+          <button
+            onClick={handleStartClick}
+            className="hero-button cursor-pointer hover:scale-105 hover:brightness-110 active:scale-95 transition-all focus:outline-none"
+          >
+            Explore Services
+          </button>
         </div>
       </div>
     </section>

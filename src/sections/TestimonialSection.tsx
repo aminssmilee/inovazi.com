@@ -68,9 +68,9 @@ const TestimonialSection = () => {
   return (
     <section id="testimonials" className="testimonials-section">
       <div className="absolute size-full flex flex-col items-center pt-[5vw]">
-        <h1 className="text-black first-title">What&apos;s</h1>
-        <h1 className="text-light-brown sec-title">Everyone</h1>
-        <h1 className="text-black third-title">Talking</h1>
+        <h1 className="text-black first-title">Kata</h1>
+        <h1 className="text-light-brown sec-title">Mereka</h1>
+        <h1 className="text-black third-title">Tentang Kita</h1>
       </div>
 
       <div className="pin-box">
